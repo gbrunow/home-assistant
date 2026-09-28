@@ -1,0 +1,257 @@
+blueprint:
+  name: Scene switch (TS0044, ZHA)
+  description: |-
+    Run actions when you press a button on a Tuya TS0044 4-button scene switch. MOES sells this switch. The blueprint works with ZHA only.
+
+    Each button has its own section. To move an action to a different button, cut the action in one section. Then paste it in the other section.
+  domain: automation
+  source_url: https://github.com/gbrunow/home-assistant/blob/main/blueprints/automation/scene-switch-ts0044-zha/scene-switch-ts0044-zha.yaml
+  homeassistant:
+    min_version: "2024.10.0"
+  input:
+    ts0044_device:
+      name: Scene switch
+      description: The TS0044 switch that runs the actions.
+      selector:
+        device:
+          filter:
+            - integration: zha
+              manufacturer: _TZ3000_wkai4ga5
+              model: TS0044
+          multiple: false
+    upper_left:
+      name: Upper-left · Button 1
+      icon: ios:inset-filled-topleft-rectangle
+      description: "&nbsp;<br>◰ The top button on the left side of the switch.<br>&nbsp;"
+      collapsed: true
+      input:
+        button_1_press:
+          name: Single press
+          description: Actions to run when you press the button one time.
+          default: []
+          selector:
+            action: {}
+        button_1_double_press:
+          name: Double press
+          description: Actions to run when you press the button two times quickly.
+          default: []
+          selector:
+            action: {}
+        button_1_held:
+          name: Long press
+          description: Actions to run when you hold the button down.
+          default: []
+          selector:
+            action: {}
+    upper_right:
+      name: Upper-right · Button 2
+      icon: ios:inset-filled-topright-rectangle
+      description: "&nbsp;<br>◳ The top button on the right side of the switch.<br>&nbsp;"
+      collapsed: true
+      input:
+        button_2_press:
+          name: Single press
+          description: Actions to run when you press the button one time.
+          default: []
+          selector:
+            action: {}
+        button_2_double_press:
+          name: Double press
+          description: Actions to run when you press the button two times quickly.
+          default: []
+          selector:
+            action: {}
+        button_2_held:
+          name: Long press
+          description: Actions to run when you hold the button down.
+          default: []
+          selector:
+            action: {}
+    lower_left:
+      name: Lower-left · Button 3
+      icon: ios:inset-filled-bottomleft-rectangle
+      description: "&nbsp;<br>◱ The bottom button on the left side of the switch.<br>&nbsp;"
+      collapsed: true
+      input:
+        button_3_press:
+          name: Single press
+          description: Actions to run when you press the button one time.
+          default: []
+          selector:
+            action: {}
+        button_3_double_press:
+          name: Double press
+          description: Actions to run when you press the button two times quickly.
+          default: []
+          selector:
+            action: {}
+        button_3_held:
+          name: Long press
+          description: Actions to run when you hold the button down.
+          default: []
+          selector:
+            action: {}
+    lower_right:
+      name: Lower-right · Button 4
+      icon: ios:inset-filled-bottomright-rectangle
+      description: "&nbsp;<br>◲ The bottom button on the right side of the switch.<br>&nbsp;"
+      collapsed: true
+      input:
+        button_4_press:
+          name: Single press
+          description: Actions to run when you press the button one time.
+          default: []
+          selector:
+            action: {}
+        button_4_double_press:
+          name: Double press
+          description: Actions to run when you press the button two times quickly.
+          default: []
+          selector:
+            action: {}
+        button_4_held:
+          name: Long press
+          description: Actions to run when you hold the button down.
+          default: []
+          selector:
+            action: {}
+
+mode: parallel
+max_exceeded: silent
+
+triggers:
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_short_press
+      endpoint_id: 1
+    id: button_1_single
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_double_press
+      endpoint_id: 1
+    id: button_1_double
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_long_press
+      endpoint_id: 1
+    id: button_1_long
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_short_press
+      endpoint_id: 2
+    id: button_2_single
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_double_press
+      endpoint_id: 2
+    id: button_2_double
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_long_press
+      endpoint_id: 2
+    id: button_2_long
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_short_press
+      endpoint_id: 3
+    id: button_3_single
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_double_press
+      endpoint_id: 3
+    id: button_3_double
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_long_press
+      endpoint_id: 3
+    id: button_3_long
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_short_press
+      endpoint_id: 4
+    id: button_4_single
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_double_press
+      endpoint_id: 4
+    id: button_4_double
+  - trigger: event
+    event_type: zha_event
+    event_data:
+      device_id: !input ts0044_device
+      command: remote_button_long_press
+      endpoint_id: 4
+    id: button_4_long
+
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: button_1_single
+        sequence: !input button_1_press
+      - conditions:
+          - condition: trigger
+            id: button_1_double
+        sequence: !input button_1_double_press
+      - conditions:
+          - condition: trigger
+            id: button_1_long
+        sequence: !input button_1_held
+      - conditions:
+          - condition: trigger
+            id: button_2_single
+        sequence: !input button_2_press
+      - conditions:
+          - condition: trigger
+            id: button_2_double
+        sequence: !input button_2_double_press
+      - conditions:
+          - condition: trigger
+            id: button_2_long
+        sequence: !input button_2_held
+      - conditions:
+          - condition: trigger
+            id: button_3_single
+        sequence: !input button_3_press
+      - conditions:
+          - condition: trigger
+            id: button_3_double
+        sequence: !input button_3_double_press
+      - conditions:
+          - condition: trigger
+            id: button_3_long
+        sequence: !input button_3_held
+      - conditions:
+          - condition: trigger
+            id: button_4_single
+        sequence: !input button_4_press
+      - conditions:
+          - condition: trigger
+            id: button_4_double
+        sequence: !input button_4_double_press
+      - conditions:
+          - condition: trigger
+            id: button_4_long
+        sequence: !input button_4_held
