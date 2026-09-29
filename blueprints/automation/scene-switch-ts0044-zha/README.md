@@ -14,11 +14,11 @@ To import the blueprint by hand:
 
 ## Use
 
-The form has one section for each button. The name of each section is the position and the number of the button on the switch, for example Upper-left · Button 1. Each section has actions for a single press, a double press, and a long press.
+The form has four groups. Each group has a dropdown that picks a button on the switch, for example ◰ Upper-left · Button 1. Below the dropdown, each group has sections for the actions of a single press, a double press, and a long press. Group 1 starts on button 1, group 2 on button 2, and so on.
 
-The section icons come from [Cupertino Icons](https://github.com/menahishayan/HomeAssistant-Cupertino-Icons), which you install through HACS. Without it, the sections show no icon.
+To move all actions of a group to a different button, pick another button in the dropdown of the group. To move one action, cut it in one section. Then paste it in the other section.
 
-To move an action to a different button, cut the action in one section. Then paste it in the other section.
+If two groups pick the same button, a press on that button runs the actions of both groups. The blueprint also creates a notification about it. To stop the notification, turn off Warn when groups share a button.
 
 To use the same actions on two switches, put the actions in a script. Then call the script from the automation of each switch.
 

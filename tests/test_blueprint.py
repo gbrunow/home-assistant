@@ -68,24 +68,44 @@ def test_every_input_is_used(blueprint):
     assert set(declared) <= set(input_references(body(blueprint)))
 
 
-PRESS_SUFFIXES = {
-    "remote_button_short_press": "press",
-    "remote_button_double_press": "double_press",
-    "remote_button_long_press": "held",
+TRIGGER_SUFFIXES = {
+    "remote_button_short_press": "single",
+    "remote_button_double_press": "double",
+    "remote_button_long_press": "long",
 }
+GROUP_INPUT_SUFFIXES = {"single": "press", "double": "double_press", "long": "held"}
 
 
-def test_each_trigger_runs_the_actions_of_its_button(blueprint):
-    """Catch copy-paste slips across the 12 near-identical triggers and routes."""
-    triggers = {trigger["id"]: trigger["event_data"] for trigger in blueprint["triggers"]}
+def test_group_triggers_match_their_ids(blueprint):
+    ids = []
+    for trigger in blueprint["triggers"]:
+        data = trigger["event_data"]
+        assert data["device_id"] == "ts0044_device", trigger["id"]
+        suffix = TRIGGER_SUFFIXES[data["command"]]
+        assert trigger["id"] == f"button_{data['endpoint_id']}_{suffix}"
+        ids.append(trigger["id"])
+    assert len(set(ids)) == 12
+
+
+def test_each_group_runs_its_actions_for_its_chosen_button(blueprint):
+    """Catch copy-paste slips across the 12 near-identical group routes."""
+    variables = blueprint["actions"][0]["variables"]
+    for n in range(1, 5):
+        assert variables[f"group_{n}"] == f"group_{n}_button"
     routes = {
-        option["conditions"][0]["id"]: option["sequence"]
-        for option in blueprint["actions"][0]["choose"]
+        block["then"]: block["if"][0]["value_template"]
+        for block in blueprint["actions"][2:]
     }
-    assert set(routes) == set(triggers)
-    for trigger_id, event_data in triggers.items():
-        assert event_data["device_id"] == "ts0044_device", trigger_id
-        press = PRESS_SUFFIXES[event_data["command"]]
-        assert routes[trigger_id] == f"button_{event_data['endpoint_id']}_{press}", trigger_id
-    presses = {(data["endpoint_id"], data["command"]) for data in triggers.values()}
-    assert len(presses) == len(triggers) == 12
+    assert routes == {
+        f"button_{n}_{input_suffix}": (
+            f"{{{{ trigger.id == 'button_' ~ group_{n} ~ '_{press}' }}}}"
+        )
+        for n in range(1, 5)
+        for press, input_suffix in GROUP_INPUT_SUFFIXES.items()
+    }
+
+
+def test_group_n_defaults_to_button_n(blueprint):
+    inputs = blueprint["blueprint"]["input"]
+    for n in range(1, 5):
+        assert inputs[f"group_{n}_button"]["default"] == str(n)

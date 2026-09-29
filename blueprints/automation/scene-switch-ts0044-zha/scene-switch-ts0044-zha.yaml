@@ -3,7 +3,7 @@ blueprint:
   description: |-
     Run actions when you press a button on a Tuya TS0044 4-button scene switch. MOES sells this switch. The blueprint works with ZHA only.
 
-    Each button has its own section. To move an action to a different button, cut the action in one section. Then paste it in the other section.
+    The form has four groups. Each group picks a button and holds the actions for its single press, double press, and long press. To move all actions of a group to a different button, pick another button in the dropdown of the group.
   domain: automation
   source_url: https://github.com/gbrunow/home-assistant/blob/main/blueprints/automation/scene-switch-ts0044-zha/scene-switch-ts0044-zha.yaml
   homeassistant:
@@ -19,103 +19,208 @@ blueprint:
               manufacturer: _TZ3000_wkai4ga5
               model: TS0044
           multiple: false
-    upper_left:
-      name: Upper-left · Button 1
-      icon: ios:inset-filled-topleft-rectangle
-      description: "&nbsp;<br>◰ The top button on the left side of the switch.<br>&nbsp;"
+    notify_shared_button:
+      name: Warn when groups share a button
+      description: Create a notification when a press matches more than one group.
+      default: true
+      selector:
+        boolean: {}
+    group_1_button:
+      name: Group 1
+      description: Pick the button for this group. Then set its actions in the three sections below.
+      default: "1"
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - value: "1"
+              label: ◰ Upper-left · Button 1
+            - value: "2"
+              label: ◳ Upper-right · Button 2
+            - value: "3"
+              label: ◱ Lower-left · Button 3
+            - value: "4"
+              label: ◲ Lower-right · Button 4
+    group_1_single:
+      name: Single press
+      icon: mdi:gesture-tap
       collapsed: true
       input:
         button_1_press:
-          name: Single press
+          name: Actions
           description: Actions to run when you press the button one time.
           default: []
           selector:
             action: {}
+    group_1_double:
+      name: Double press
+      icon: mdi:gesture-double-tap
+      collapsed: true
+      input:
         button_1_double_press:
-          name: Double press
+          name: Actions
           description: Actions to run when you press the button two times quickly.
           default: []
           selector:
             action: {}
+    group_1_long:
+      name: Long press
+      icon: mdi:gesture-tap-hold
+      collapsed: true
+      input:
         button_1_held:
-          name: Long press
+          name: Actions
           description: Actions to run when you hold the button down.
           default: []
           selector:
             action: {}
-    upper_right:
-      name: Upper-right · Button 2
-      icon: ios:inset-filled-topright-rectangle
-      description: "&nbsp;<br>◳ The top button on the right side of the switch.<br>&nbsp;"
+    group_2_button:
+      name: Group 2
+      description: Pick the button for this group. Then set its actions in the three sections below.
+      default: "2"
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - value: "1"
+              label: ◰ Upper-left · Button 1
+            - value: "2"
+              label: ◳ Upper-right · Button 2
+            - value: "3"
+              label: ◱ Lower-left · Button 3
+            - value: "4"
+              label: ◲ Lower-right · Button 4
+    group_2_single:
+      name: Single press
+      icon: mdi:gesture-tap
       collapsed: true
       input:
         button_2_press:
-          name: Single press
+          name: Actions
           description: Actions to run when you press the button one time.
           default: []
           selector:
             action: {}
+    group_2_double:
+      name: Double press
+      icon: mdi:gesture-double-tap
+      collapsed: true
+      input:
         button_2_double_press:
-          name: Double press
+          name: Actions
           description: Actions to run when you press the button two times quickly.
           default: []
           selector:
             action: {}
+    group_2_long:
+      name: Long press
+      icon: mdi:gesture-tap-hold
+      collapsed: true
+      input:
         button_2_held:
-          name: Long press
+          name: Actions
           description: Actions to run when you hold the button down.
           default: []
           selector:
             action: {}
-    lower_left:
-      name: Lower-left · Button 3
-      icon: ios:inset-filled-bottomleft-rectangle
-      description: "&nbsp;<br>◱ The bottom button on the left side of the switch.<br>&nbsp;"
+    group_3_button:
+      name: Group 3
+      description: Pick the button for this group. Then set its actions in the three sections below.
+      default: "3"
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - value: "1"
+              label: ◰ Upper-left · Button 1
+            - value: "2"
+              label: ◳ Upper-right · Button 2
+            - value: "3"
+              label: ◱ Lower-left · Button 3
+            - value: "4"
+              label: ◲ Lower-right · Button 4
+    group_3_single:
+      name: Single press
+      icon: mdi:gesture-tap
       collapsed: true
       input:
         button_3_press:
-          name: Single press
+          name: Actions
           description: Actions to run when you press the button one time.
           default: []
           selector:
             action: {}
+    group_3_double:
+      name: Double press
+      icon: mdi:gesture-double-tap
+      collapsed: true
+      input:
         button_3_double_press:
-          name: Double press
+          name: Actions
           description: Actions to run when you press the button two times quickly.
           default: []
           selector:
             action: {}
+    group_3_long:
+      name: Long press
+      icon: mdi:gesture-tap-hold
+      collapsed: true
+      input:
         button_3_held:
-          name: Long press
+          name: Actions
           description: Actions to run when you hold the button down.
           default: []
           selector:
             action: {}
-    lower_right:
-      name: Lower-right · Button 4
-      icon: ios:inset-filled-bottomright-rectangle
-      description: "&nbsp;<br>◲ The bottom button on the right side of the switch.<br>&nbsp;"
+    group_4_button:
+      name: Group 4
+      description: Pick the button for this group. Then set its actions in the three sections below.
+      default: "4"
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - value: "1"
+              label: ◰ Upper-left · Button 1
+            - value: "2"
+              label: ◳ Upper-right · Button 2
+            - value: "3"
+              label: ◱ Lower-left · Button 3
+            - value: "4"
+              label: ◲ Lower-right · Button 4
+    group_4_single:
+      name: Single press
+      icon: mdi:gesture-tap
       collapsed: true
       input:
         button_4_press:
-          name: Single press
+          name: Actions
           description: Actions to run when you press the button one time.
           default: []
           selector:
             action: {}
+    group_4_double:
+      name: Double press
+      icon: mdi:gesture-double-tap
+      collapsed: true
+      input:
         button_4_double_press:
-          name: Double press
+          name: Actions
           description: Actions to run when you press the button two times quickly.
           default: []
           selector:
             action: {}
+    group_4_long:
+      name: Long press
+      icon: mdi:gesture-tap-hold
+      collapsed: true
+      input:
         button_4_held:
-          name: Long press
+          name: Actions
           description: Actions to run when you hold the button down.
           default: []
           selector:
             action: {}
-
 mode: parallel
 max_exceeded: silent
 
@@ -206,52 +311,72 @@ triggers:
     id: button_4_long
 
 actions:
-  - choose:
-      - conditions:
-          - condition: trigger
-            id: button_1_single
-        sequence: !input button_1_press
-      - conditions:
-          - condition: trigger
-            id: button_1_double
-        sequence: !input button_1_double_press
-      - conditions:
-          - condition: trigger
-            id: button_1_long
-        sequence: !input button_1_held
-      - conditions:
-          - condition: trigger
-            id: button_2_single
-        sequence: !input button_2_press
-      - conditions:
-          - condition: trigger
-            id: button_2_double
-        sequence: !input button_2_double_press
-      - conditions:
-          - condition: trigger
-            id: button_2_long
-        sequence: !input button_2_held
-      - conditions:
-          - condition: trigger
-            id: button_3_single
-        sequence: !input button_3_press
-      - conditions:
-          - condition: trigger
-            id: button_3_double
-        sequence: !input button_3_double_press
-      - conditions:
-          - condition: trigger
-            id: button_3_long
-        sequence: !input button_3_held
-      - conditions:
-          - condition: trigger
-            id: button_4_single
-        sequence: !input button_4_press
-      - conditions:
-          - condition: trigger
-            id: button_4_double
-        sequence: !input button_4_double_press
-      - conditions:
-          - condition: trigger
-            id: button_4_long
-        sequence: !input button_4_held
+  - variables:
+      group_1: !input group_1_button
+      group_2: !input group_2_button
+      group_3: !input group_3_button
+      group_4: !input group_4_button
+      pressed: "{{ trigger.event.data.endpoint_id | string }}"
+      matching_groups: >-
+        {% set groups = {1: group_1, 2: group_2, 3: group_3, 4: group_4} %}
+        {{ groups | dictsort | selectattr(1, 'eq', pressed) | map(attribute=0) | list }}
+  - alias: Warn when groups share the pressed button
+    enabled: !input notify_shared_button
+    if:
+      - condition: template
+        value_template: "{{ matching_groups | count > 1 }}"
+    then:
+      - action: persistent_notification.create
+        data:
+          notification_id: "{{ this.entity_id }}_shared_button"
+          title: "{{ this.attributes.friendly_name }}"
+          message: >-
+            Groups {{ matching_groups | join(', ') }} all use Button {{ pressed }}. A press on that button runs the actions of each of these groups.
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_1 ~ '_single' }}"
+    then: !input button_1_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_1 ~ '_double' }}"
+    then: !input button_1_double_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_1 ~ '_long' }}"
+    then: !input button_1_held
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_2 ~ '_single' }}"
+    then: !input button_2_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_2 ~ '_double' }}"
+    then: !input button_2_double_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_2 ~ '_long' }}"
+    then: !input button_2_held
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_3 ~ '_single' }}"
+    then: !input button_3_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_3 ~ '_double' }}"
+    then: !input button_3_double_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_3 ~ '_long' }}"
+    then: !input button_3_held
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_4 ~ '_single' }}"
+    then: !input button_4_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_4 ~ '_double' }}"
+    then: !input button_4_double_press
+  - if:
+      - condition: template
+        value_template: "{{ trigger.id == 'button_' ~ group_4 ~ '_long' }}"
+    then: !input button_4_held
